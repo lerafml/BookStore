@@ -1,0 +1,33 @@
+﻿@model List<BookStore.Models.USER>
+@{
+    ViewBag.Title = "Библиотека: пользователи";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ActionLink("Добавить", "Add", "Users")
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <td>Почта</td>
+                <td>ФИО</td>
+                <td>Логин</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (BookStore.Models.USER user in @Model)
+            {
+                <tr>
+                    <td>@user.EMAIL</td>
+                    <td>@user.FIO</td>
+                    <td>@user.LOGIN</td>
+                    <td>
+                        @Html.ActionLink("Изменить", "Edit", "Users", new { id = user.ID }, new { })
+                        @Html.ActionLink("Удалить", "Delete", "Users", new { id = user.ID }, new { })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

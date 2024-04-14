@@ -1,0 +1,91 @@
+﻿@model List<BookStore.ViewModels.BookViewModel>
+@{
+    ViewBag.Title = "Библиотека";
+}
+
+@using (Html.BeginForm())
+{
+    if (User.Identity.IsAuthenticated && Session["admin"].ToString() == "Y")
+    {
+        @Html.ActionLink("Добавить", "Add", "Books")
+    }
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <td>Автор</td>
+                <td>Название</td>
+                <td>Описание</td>
+                <td>Дата публикации</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (BookStore.ViewModels.BookViewModel book in @Model)
+            {
+                <tr>
+                    <td>@book.author</td>
+                    <td>@book.name</td>
+                    <td>@book.caption</td>
+                    <td>@book.count</td>
+                    <td>
+                        @if (User.Identity.IsAuthenticated && Session["admin"].ToString() == "Y")
+                        {
+                            @Html.ActionLink("Изменить", "Edit", "Books", new { id = book.id }, new { })
+                            @Html.ActionLink("Удалить", "Delete", "Books", new { id = book.id }, new { })
+                        }
+                        else if (User.Identity.IsAuthenticated)
+                        {
+                            <input id="takeBtn" type="button" onclick="TakeTheBook(@book.id, @Model.IndexOf(book))" value="@((bool)book.taken ? "Вернуть" : book.count > 0 ? "Взять" : "Нет в наличии")"/>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<script type="text/javascript">
+    function TakeTheBook(id, index) {
+        var cnt = parseInt($("table")[0].rows[index + 1].cells[3].innerText);
+        if ($("table")[0].rows[index + 1].cells[4].children[0].value == "Взять") {
+            $.ajax({
+                url: '@Url.Action("Take", "Books")',
+                method: 'post',
+                data: { id: id },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.msg == "OK") {
+                        $("table")[0].rows[index + 1].cells[3].innerText = cnt - 1;
+                        $("table")[0].rows[index + 1].cells[4].children[0].value = "Вернуть";
+                    }
+                    else {
+                        alert("Ошибка");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        }
+        else if ($("table")[0].rows[index + 1].cells[4].children[0].value == "Вернуть") {
+            $.ajax({
+                url: '@Url.Action("Return", "Books")',
+                method: 'post',
+                data: { id: id },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.msg == "OK") {
+                        $("table")[0].rows[index + 1].cells[3].innerText = cnt + 1;
+                        $("table")[0].rows[index + 1].cells[4].children[0].value = "Взять";
+                    }
+                    else {
+                        alert("Ошибка");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        }
+    }
+</script>

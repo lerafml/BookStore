@@ -1,0 +1,44 @@
+﻿@model BookStore.Models.USER
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.ID)
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(m => m.EMAIL)</td>
+                <td>
+                    @Html.EditorFor(m => m.EMAIL)
+                    @Html.ValidationMessageFor(m => m.EMAIL)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.FIO)</td>
+                <td>
+                    @Html.EditorFor(m => m.FIO)
+                    @Html.ValidationMessageFor(m => m.FIO)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LOGIN)</td>
+                <td>
+                    @Html.EditorFor(m => m.LOGIN)
+                    @Html.ValidationMessageFor(m => m.LOGIN)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.PASSWORD)</td>
+                <td>
+                    @Html.PasswordFor(m => m.PASSWORD)
+                    @Html.ValidationMessageFor(m => m.PASSWORD)
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Сохранить" /></td>
+                <td>@Html.ActionLink("Отменить", "Users", "Home")
+            </tr>
+        </tbody>
+    </table>
+}

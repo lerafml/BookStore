@@ -1,0 +1,31 @@
+﻿@model BookStore.Models.LoginViewModel
+@{
+    ViewBag.Title = "Библиотека: авторизация";
+}
+
+<h2>Добро пожаловать</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(x => x.login)</td>
+                <td>
+                    @Html.TextBoxFor(x => x.login)
+                    @Html.ValidationMessageFor(x => x.login)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(x => x.password)</td>
+                <td>
+                    @Html.PasswordFor(x => x.password)
+                    @Html.ValidationMessageFor(x => x.password)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <input type="submit" value="Войти" />
+}

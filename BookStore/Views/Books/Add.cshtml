@@ -1,0 +1,44 @@
+﻿@model BookStore.ViewModels.BookViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.id)
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(m => m.author)</td>
+                <td>
+                    @Html.EditorFor(m => m.author)
+                    @Html.ValidationMessageFor(m => m.author)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.name)</td>
+                <td>
+                    @Html.EditorFor(m => m.name)
+                    @Html.ValidationMessageFor(m => m.name)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.caption)</td>
+                <td>
+                    @Html.EditorFor(m => m.caption)
+                    @Html.ValidationMessageFor(m => m.caption)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.count)</td>
+                <td>
+                    @Html.EditorFor(m => m.count)
+                    @Html.ValidationMessageFor(m => m.count)
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Сохранить" /></td>
+                <td>@Html.ActionLink("Отменить", "Index", "Home")
+            </tr>
+        </tbody>
+    </table>
+}
